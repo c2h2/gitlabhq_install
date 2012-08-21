@@ -1,6 +1,6 @@
 upstream gitlab {
-    #server unix:/home/gitlab/gitlab/tmp/sockets/gitlab.socket;
-    server localhost:8080;
+    server unix:/www/gitlabhq/tmp/sockets/gitlab.socket;
+    #server localhost:8080;
 }
 
 server {
