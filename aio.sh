@@ -5,7 +5,7 @@ apt-get -y install gitolite git git-core postfix imagemagick graphicsmagick libc
 lynx-cur build-essential nginx
 
 #additional packages (tools for backup monitoring and etc)
-apt-get -y install p7zip-full aptitude vim htop iftop iotop smartmontools curl subversion openssl bonnie++ autossh sysv-rc-conf byobu
+apt-get -y install p7zip-full aptitude vim htop iftop iotop smartmontools curl subversion openssl bonnie++ autossh sysv-rc-conf byobu lynx-cur
 
 #get ruby (not using rvm, make it simpler)
 wget http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p194.tar.gz
@@ -18,8 +18,7 @@ gem install bundler
 #install gitlabhq pre
 sudo adduser --system --shell /bin/sh --gecos 'git version control' --group --disabled-password --home /home/git git
 su - git
-ssh-keygen
-exit
+sudo -u git ssh-keygen
 
 
 #configure gitolite
@@ -48,4 +47,6 @@ bundle exec rake gitlab:app:status RAILS_ENV=production
 #use update-rc.d xxx defaults to make them auto start while os starts
 
 
-
+#nginx stuff:
+cp nginx.site /etc/nginx/site-enabled/gitlabhq
+#and disable default one.
