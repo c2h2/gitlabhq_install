@@ -2,7 +2,7 @@
 
 #essential packages, yes a lot
 apt-get -y install gitolite git git-core postfix imagemagick graphicsmagick libcurl4-openssl-dev libmagickcore-dev libmagickwand-dev bison libreadline6 libreadline6-dev zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev autoconf libsqlite3-dev libmysqlclient-dev ttf-unifont libsasl2-dev libncurses5-dev libicu-dev mysql-server redis-server
-lynx-cur build-essential
+lynx-cur build-essential nginx
 
 #additional packages (tools for backup monitoring and etc)
 apt-get -y install p7zip-full aptitude vim htop iftop iotop smartmontools curl subversion openssl bonnie++ autossh sysv-rc-conf byobu
@@ -33,6 +33,7 @@ git clone git://github.com/gitlabhq/gitlabhq.git
 cd gitlabhq && bundle install --without development test
 cp -i config/database.yml.example config/database.yml  #need comstomization
 cp -i config/gitlab.yml.example config/gitlab.yml   #need comstomization
+cp -i config/unicorn.rb.orig config/unicron.rb   #need comstomization. for unicorn http server, need to configure the root dir.
 
 bundle exec rake db:setup RAILS_ENV=production
 bundle exec rake db:seed_fu RAILS_ENV=production
@@ -40,3 +41,11 @@ bundle exec rake db:seed_fu RAILS_ENV=production
 #testing
 
 bundle exec rake gitlab:app:status RAILS_ENV=production
+
+
+#make init.d files
+#cp *.init to /etc/init.d and make them execuatable.
+#use update-rc.d xxx defaults to make them auto start while os starts
+
+
+
