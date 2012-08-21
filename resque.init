@@ -1,0 +1,54 @@
+#! /bin/bash
+### BEGIN INIT INFO
+# Provides:          gitlab_resque
+# Required-Start:    $local_fs $remote_fs $network $syslog redis-server
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: GitLab git resque jobs management
+# Description:       GitLab git resque jobs management
+### END INIT INFO
+
+NAME=unicorn_resque
+DESC="Gitlab resque service"
+RESQUE_PID=/var/run/resque_worker.pid
+USER=root
+
+case "$1" in
+  start)
+        CD_TO_APP_DIR="cd /www/gitlabhq"
+        START_RESQUE_PROCESS="./resque.sh"
+
+        echo -n "Starting $DESC: "
+        if [ `whoami` = root ]; then
+          sudo -u $USER sh -l -c "$CD_TO_APP_DIR > /dev/null 2>&1 && $START_RESQUE_PROCESS"
+        else
+          $CD_TO_APP_DIR > /dev/null 2>&1 && $START_RESQUE_PROCESS
+        fi
+        echo "$NAME."
+        ;;
+  stop)
+        echo -n "Stopping $DESC: "
+        kill -QUIT `cat $PID`
+        kill -QUIT `cat $RESQUE_PID`
+        echo "$NAME."
+        ;;
+  restart)
+        echo -n "Restarting $DESC: "
+        kill -USR2 `cat $PID`
+        kill -USR2 `cat $RESQUE_PID`
+        echo "$NAME."
+        ;;
+  reload)
+        echo -n "Reloading $DESC configuration: "
+        kill -HUP `cat $PID`
+        kill -HUP `cat $RESQUE_PID`
+        echo "$NAME."
+        ;;
+  *)
+        echo "Usage: $NAME {start|stop|restart|reload}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

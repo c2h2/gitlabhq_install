@@ -31,10 +31,12 @@ mkdir /www
 cd /www
 git clone git://github.com/gitlabhq/gitlabhq.git
 cd gitlabhq && bundle install --without development test
-cp -i config/database.yml.example config/database.yml
-cp -i config/gitlab.yml.example config/gitlab.yml
+cp -i config/database.yml.example config/database.yml  #need comstomization
+cp -i config/gitlab.yml.example config/gitlab.yml   #need comstomization
 
 bundle exec rake db:setup RAILS_ENV=production
 bundle exec rake db:seed_fu RAILS_ENV=production
 
+#testing
 
+bundle exec rake gitlab:app:status RAILS_ENV=production
