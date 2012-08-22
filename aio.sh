@@ -45,7 +45,9 @@ bundle exec rake gitlab:app:status RAILS_ENV=production
 #make init.d files
 #cp *.init to /etc/init.d and make them execuatable.
 #use update-rc.d xxx defaults to make them auto start while os starts
-
+update-rc.d nginx defaults
+update-rc.d unicorn defaults
+update-rc.d resque defaults
 
 #nginx stuff:
 cp nginx.site /etc/nginx/site-enabled/gitlabhq
